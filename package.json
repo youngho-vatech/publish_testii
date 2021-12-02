@@ -18,5 +18,6 @@
   "homepage": "https://github.com/youngho-vatech/publish_testii#readme",
   "dependencies": {
     "publish_testii": "^1.0.0"
-  }
+  },
+  "type": "module"
 }
