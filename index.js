@@ -1,1 +1,3 @@
-console.log("asdf");
+const test = res => {
+  console.log("asdf", res);
+};
