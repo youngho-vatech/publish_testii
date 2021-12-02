@@ -1,0 +1,19 @@
+{
+  "name": "publish_testii",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/youngho-vatech/publish_testii.git"
+  },
+  "author": "bigtiger92@naver.com",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/youngho-vatech/publish_testii/issues"
+  },
+  "homepage": "https://github.com/youngho-vatech/publish_testii#readme"
+}
