@@ -1,4 +1,4 @@
 function test(params) {
   console.log("asdf", params);
 }
-export { test };
+module.exports = { test };
