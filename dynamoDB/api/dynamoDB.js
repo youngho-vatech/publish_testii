@@ -13,7 +13,7 @@ import {
   getHashKey,
   splitForEach,
   getGlobalIndexHashKey
-} from "../../utils";
+} from "../../utils/index.js";
 
 dotenv.config();
 

@@ -8,7 +8,7 @@ import {
   getHashRangeKeyIndex,
   getType,
   getGlobalIndexHashKey
-} from "../../utils";
+} from "../../utils/index.js";
 
 const mongoosePaginate = require("mongoose-paginate-v2");
 const { Schema } = mongoose;

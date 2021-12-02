@@ -9,4 +9,4 @@ export {
   getUniqueKey,
   splitForEach,
   getGlobalIndexHashKey
-} from "./etc";
+} from "./etc.js";

@@ -1,10 +1,10 @@
-import { api, createModels } from "./mongoDB";
+import { api as mongo, createModels as mongoc } from "./mongoDB/api/mongoDB.js";
 import {
-  api,
+  api as dynamo,
   checkStatusToDynamoDbName,
-  createModels,
+  createModels as dynamoc,
   getSecretString,
   restoreTableFromBackup
-} from "./dynamoDB";
+} from "./dynamoDB/api/dynamoDB.js";
 
 console.log("asdf");
