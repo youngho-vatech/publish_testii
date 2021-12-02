@@ -15,5 +15,8 @@
   "bugs": {
     "url": "https://github.com/youngho-vatech/publish_testii/issues"
   },
-  "homepage": "https://github.com/youngho-vatech/publish_testii#readme"
+  "homepage": "https://github.com/youngho-vatech/publish_testii#readme",
+  "dependencies": {
+    "publish_testii": "^1.0.0"
+  }
 }
