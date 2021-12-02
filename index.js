@@ -1,4 +1,4 @@
-const test = res => {
+function test(params) {
   console.log("asdf", res);
-};
-export { test };
+}
+module.exports = test;
