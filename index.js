@@ -1,17 +1,13 @@
-import {
-  api as dynamoApi,
+const {
+  api,
   checkStatusToDynamoDbName,
-  createModels as dynamoCreateModels,
+  createModels,
   getSecretString,
   restoreTableFromBackup
-} from "./dynamoDB/api/index.js";
-export {
-  api as mongoApi,
-  createModels as mongoCreateModels
-} from "./mongoDB/api/index.js";
+} = require("./dynamoDB/api/index");
 
 function test(params) {
   console.log("asdf", params);
 }
-module.exports = dynamoApi;
+module.exports = api;
 module.exports = test;
