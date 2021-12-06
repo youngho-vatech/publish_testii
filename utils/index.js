@@ -1,4 +1,4 @@
-export {
+const {
   envTestBool,
   getDateToTimestamp,
   getHashRangeKeyIndex,
@@ -9,4 +9,4 @@ export {
   getUniqueKey,
   splitForEach,
   getGlobalIndexHashKey
-} from "./etc.js";
+} = require("./etc.js");
