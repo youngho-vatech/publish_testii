@@ -15,4 +15,4 @@ const testtest = params => {
   console.log("뭐해2");
   return params;
 };
-module.exports = { test, testtest };
+export { test, testtest };
