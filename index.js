@@ -1,20 +1,12 @@
 const {
-  api,
+  dynamoDBApi,
   checkStatusToDynamoDbName,
-  createModels,
+  dynamoDBCreateModels,
   getSecretString,
   restoreTableFromBackup
 } = require("./dynamoDB/api/dynamoDB.js");
-const test = params => {
-  console.log("asdf", params);
-  console.log("뭐해");
-  return params;
-};
-const testtest = params => {
-  console.log("asdf2", params);
-  console.log("뭐해2");
-  return params;
-};
+const { mongoDBApi, mongoDBCreateModels } = require("./mongoDB/api/mongoDB.js");
+
 module.exports = {
   test,
   testtest,

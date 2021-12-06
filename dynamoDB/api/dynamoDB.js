@@ -30,7 +30,7 @@ const CREATE_PERM = "20";
 const UPDATE_PERM = "21";
 const DELETE_PERM = "22";
 
-const createModels = options => {
+const dynamoDBCreateModels = options => {
   const { profile, prefix, importSchema = true, schema } = options;
   console.log(
     `profile: ${profile}`,
@@ -747,7 +747,7 @@ const query = async filter => {
 //   return table;
 // };
 
-const api = (schema, tableName, prefix = "") => {
+const dynamoDBApi = (schema, tableName, prefix = "") => {
   const obj = new Object();
   const rangeKey = getRangeKey(schema);
   const requiredKeys = getRequiredKeys(schema);
@@ -1438,10 +1438,10 @@ const api = (schema, tableName, prefix = "") => {
 };
 
 module.exports = {
-  createModels,
+  dynamoDBCreateModels,
   getSecretString,
   restoreTableFromBackup,
   checkStatusToDynamoDbName,
   // model,
-  api
+  dynamoDBApi
 };

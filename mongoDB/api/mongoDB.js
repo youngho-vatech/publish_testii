@@ -23,7 +23,7 @@ const CREATE_PERM = "20";
 const UPDATE_PERM = "21";
 const DELETE_PERM = "22";
 
-const createModels = async options => {
+const mongoDBCreateModels = async options => {
   const { prefix, importSchema = true, schema } = options;
 
   var mongoDB =
@@ -318,7 +318,7 @@ const createCollection = (collectionName, model) => {
   return newTable;
 };
 
-const api = (defs, tableName, prefix) => {
+const mongoDBApi = (defs, tableName, prefix) => {
   const obj = {};
 
   const schema = new mongoose.Schema(reDefineForMongo(defs), {
@@ -742,4 +742,4 @@ const api = (defs, tableName, prefix) => {
 
   return obj;
 };
-module.exports = { createModels, api };
+module.exports = { mongoDBCreateModels, mongoDBApi };
