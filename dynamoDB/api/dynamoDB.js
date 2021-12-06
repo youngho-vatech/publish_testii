@@ -1,12 +1,11 @@
-import AWS from "aws-sdk";
-import * as dotenv from "dotenv";
+const AWS = require("aws-sdk");
+const dotenv = require("dotenv");
 // import dynamoose from "dynamoose";
-import flat from "flat";
-const { flatten } = flat;
-import https from "https";
-import moment from "moment";
+const { flatten } = require("flat");
+const https = require("https");
+const moment = require("moment");
 
-import {
+const {
   getHashRangeKeyIndex,
   getRangeKey,
   getRequiredKeys,
@@ -14,7 +13,7 @@ import {
   getHashKey,
   splitForEach,
   getGlobalIndexHashKey
-} from "../../utils/index.js";
+} = require("../../utils/index.js");
 
 dotenv.config();
 
@@ -1438,7 +1437,7 @@ const api = (schema, tableName, prefix = "") => {
   return obj;
 };
 
-export {
+module.exports = {
   createModels,
   getSecretString,
   restoreTableFromBackup,
