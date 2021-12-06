@@ -8,11 +8,11 @@ const {
 const { mongoDBApi, mongoDBCreateModels } = require("./mongoDB/api/mongoDB.js");
 
 module.exports = {
-  test,
-  testtest,
-  api,
+  dynamoDBApi,
   checkStatusToDynamoDbName,
-  createModels,
+  dynamoDBCreateModels,
   getSecretString,
-  restoreTableFromBackup
+  restoreTableFromBackup,
+  mongoDBApi,
+  mongoDBCreateModels
 };
