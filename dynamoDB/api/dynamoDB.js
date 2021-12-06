@@ -69,7 +69,7 @@ const dynamoDBCreateModels = options => {
   if (importSchema) {
     models = Object.keys(schema).reduce((acc, cur) => {
       // console.log(schema[cur], cur, prefix || "");
-      acc[cur.toLowerCase()] = api(schema[cur], cur, prefix || "");
+      acc[cur.toLowerCase()] = dynamoDBApi(schema[cur], cur, prefix || "");
       return acc;
     }, {});
   }

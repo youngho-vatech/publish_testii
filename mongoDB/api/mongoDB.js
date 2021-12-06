@@ -58,7 +58,7 @@ const mongoDBCreateModels = async options => {
   let models = {};
   if (importSchema) {
     models = Object.keys(schema).reduce((acc, cur) => {
-      acc[cur.toLowerCase()] = api(schema[cur], cur, prefix || "");
+      acc[cur.toLowerCase()] = mongoDBApi(schema[cur], cur, prefix || "");
       return acc;
     }, {});
   }
