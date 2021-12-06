@@ -1,14 +1,14 @@
-import { flatten } from "flat";
-import moment from "moment";
-import mongoose from "mongoose";
-import {
+const { flatten } = require("flat");
+const moment = require("moment");
+const mongoose = require("mongoose");
+const {
   envTestBool,
   getHashKey,
   getRequiredKeys,
   getHashRangeKeyIndex,
   getType,
   getGlobalIndexHashKey
-} from "../../utils/index.js";
+} = require("../../utils/etc.js");
 
 const mongoosePaginate = require("mongoose-paginate-v2");
 const { Schema } = mongoose;
@@ -742,4 +742,4 @@ const api = (defs, tableName, prefix) => {
 
   return obj;
 };
-export { createModels, api };
+module.exports = { createModels, api };
