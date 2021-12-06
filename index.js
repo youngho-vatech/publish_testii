@@ -1,5 +1,5 @@
 const test = params => {
   console.log("asdf", params);
-  return "asdfasdfasdf";
+  return params;
 };
 module.exports = { test };
