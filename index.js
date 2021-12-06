@@ -1,10 +1,10 @@
-const dynamo = ({
+import {
   api,
   checkStatusToDynamoDbName,
   createModels,
   getSecretString,
   restoreTableFromBackup
-} = require("./dynamoDB/api/dynamoDB.js"));
+} from "./dynamoDB/api/dynamoDB.js";
 const test = params => {
   console.log("asdf", params);
   console.log("뭐해");
