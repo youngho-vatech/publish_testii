@@ -1,4 +1,10 @@
-import { api } from "./dynamoDB/api";
+const {
+  api,
+  checkStatusToDynamoDbName,
+  createModels,
+  getSecretString,
+  restoreTableFromBackup
+} = require("./dynamoDB/api/dynamoDB.js");
 const test = params => {
   console.log("asdf", params);
   console.log("뭐해");
@@ -9,4 +15,10 @@ const testtest = params => {
   console.log("뭐해2");
   return params;
 };
-export { test, testtest };
+module.exports = {
+  api,
+  checkStatusToDynamoDbName,
+  createModels,
+  getSecretString,
+  restoreTableFromBackup
+};
