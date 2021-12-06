@@ -1,3 +1,10 @@
+import {
+  api,
+  checkStatusToDynamoDbName,
+  createModels,
+  getSecretString,
+  restoreTableFromBackup
+} from "./dynamoDB/api/dynamoDB.js";
 const test = params => {
   console.log("asdf", params);
   console.log("뭐해");
