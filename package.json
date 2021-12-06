@@ -34,6 +34,5 @@
     "publish_testii": "^1.0.0",
     "webpack": "^5.64.4",
     "cross-fetch": "^3.0.4"
-  },
-  "type": "module"
+  }
 }
