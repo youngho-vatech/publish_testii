@@ -1,7 +1,8 @@
 import AWS from "aws-sdk";
 import * as dotenv from "dotenv";
 // import dynamoose from "dynamoose";
-import { flatten } from "flat";
+import flat from "flat";
+const { flatten } = flat;
 import https from "https";
 import moment from "moment";
 
