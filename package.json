@@ -32,7 +32,8 @@
     "mongoose": "^6.0.14",
     "mongoose-paginate-v2": "^1.4.2",
     "publish_testii": "^1.0.0",
-    "webpack": "^5.64.4"
+    "webpack": "^5.64.4",
+    "cross-fetch": "^3.0.4"
   },
   "type": "module"
 }
