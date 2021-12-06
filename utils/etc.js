@@ -1,4 +1,4 @@
-import moment from "moment";
+const moment = require("moment");
 
 const getType = object => {
   if (object.constructor === Object) return "Map";
@@ -144,7 +144,7 @@ const splitForEach = (arr, n, tableName) => {
   return res;
 };
 
-export {
+module.exports = {
   getType,
   getRequiredKeys,
   getHashRangeKeyIndex,
