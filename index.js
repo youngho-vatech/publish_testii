@@ -16,6 +16,8 @@ const testtest = params => {
   return params;
 };
 module.exports = {
+  test,
+  testtest,
   api,
   checkStatusToDynamoDbName,
   createModels,
