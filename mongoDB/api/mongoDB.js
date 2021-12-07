@@ -621,9 +621,11 @@ const mongoDBApi = (defs, tableName, prefix) => {
 
     if (sort) {
       options["sort"] = `${sort.order ? "-" : ""}${
-        sort.indexKey.split("_")[1] === "global"
-          ? sort.indexKey.split("_")[0]
-          : sort.indexKey
+        sort.indexKey
+          ? sort.indexKey.split("_")[1] === "global"
+            ? sort.indexKey.split("_")[0]
+            : sort.indexKey
+          : ""
       }`;
       options["_id"] = 0;
     }
