@@ -620,6 +620,7 @@ const mongoDBApi = (defs, tableName, prefix) => {
     const options = {};
 
     if (sort) {
+      console.log(sort.indexKey);
       options["sort"] = `${sort.order ? "-" : ""}${
         sort.indexKey
           ? sort.indexKey.split("_")[1] === "global"
