@@ -620,12 +620,14 @@ const mongoDBApi = (defs, tableName, prefix) => {
     const options = {};
 
     if (sort) {
+      console.log("sort : ", sort);
       options["sort"] = `${sort.order ? "-" : ""}${sort.indexKey}`;
       if (sort.indexKey && sort.indexKey.split("_")[1] === "global") {
         options["sort"] = `${sort.order ? "-" : ""}${
           sort.indexKey.split("_")[0]
         }`;
       }
+      console.log("options : ", options);
       options["_id"] = 0;
     }
 
@@ -680,6 +682,7 @@ const mongoDBApi = (defs, tableName, prefix) => {
     };
     if (sort) {
       options["sort"] = `${sort.order ? "-" : ""}${sort.indexKey}`;
+      console.log(sort.indexKey);
       if (sort.indexKey && sort.indexKey.split("_")[1] === "global") {
         options["sort"] = `${sort.order ? "-" : ""}${
           sort.indexKey.split("_")[0]
@@ -687,7 +690,7 @@ const mongoDBApi = (defs, tableName, prefix) => {
       }
       options["_id"] = 0;
     }
-
+    console.log(options);
     return table
       .paginate(conditions, options)
       .then(data => {
