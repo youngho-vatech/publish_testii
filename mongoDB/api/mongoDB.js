@@ -620,16 +620,12 @@ const mongoDBApi = (defs, tableName, prefix) => {
     const options = {};
 
     if (sort) {
-      console.log(sort.indexKey, "23");
-      console.log(sort.indexKey.split("_")[1], "34");
-      console.log(sort.indexKey.split("_")[0], "45");
-      options["sort"] = `${sort.order ? "-" : ""}${
-        sort.indexKey
-          ? sort.indexKey.split("_")[1] === "global"
-            ? sort.indexKey.split("_")[0]
-            : sort.indexKey
-          : ""
-      }`;
+      options["sort"] = `${sort.order ? "-" : ""}${sort.indexKey}`;
+      if (sort.indexKey && sort.indexKey.split("_")[1] === "global") {
+        options["sort"] = `${sort.order ? "-" : ""}${
+          sort.indexKey.split("_")[0]
+        }`;
+      }
       options["_id"] = 0;
     }
 
@@ -684,6 +680,11 @@ const mongoDBApi = (defs, tableName, prefix) => {
     };
     if (sort) {
       options["sort"] = `${sort.order ? "-" : ""}${sort.indexKey}`;
+      if (sort.indexKey && sort.indexKey.split("_")[1] === "global") {
+        options["sort"] = `${sort.order ? "-" : ""}${
+          sort.indexKey.split("_")[0]
+        }`;
+      }
       options["_id"] = 0;
     }
 
