@@ -96,7 +96,7 @@ const createCommonFilter = (
 
   let hashKey = getHashKey(tableSchema.obj);
   let globalIndexHashKey = "";
-  if (sort) {
+  if (sort && sort.indexKey) {
     globalIndexHashKey = getGlobalIndexHashKey(tableSchema.obj, sort.indexKey);
   }
   const hashV = {};
