@@ -620,8 +620,13 @@ const mongoDBApi = (defs, tableName, prefix) => {
     const options = {};
 
     if (sort) {
-      options["sort"] = `${sort.order ? "-" : ""}${sort.indexKey}`;
-
+      options["sort"] = `${sort.order ? "-" : ""}${
+        sort.indexKey
+          ? sort.indexKey.split("_")[1] === "global"
+            ? sort.indexKey.split("_")[0]
+            : sort.indexKey
+          : ""
+      }`;
       options["_id"] = 0;
     }
 
@@ -674,9 +679,15 @@ const mongoDBApi = (defs, tableName, prefix) => {
       limit: limit,
       page: startKey ? startKey : 1
     };
-    if (sort) {
-      options["sort"] = `${sort.order ? "-" : ""}${sort.indexKey}`;
 
+    if (sort) {
+      options["sort"] = `${sort.order ? "-" : ""}${
+        sort.indexKey
+          ? sort.indexKey.split("_")[1] === "global"
+            ? sort.indexKey.split("_")[0]
+            : sort.indexKey
+          : ""
+      }`;
       options["_id"] = 0;
     }
 
@@ -740,4 +751,5 @@ const mongoDBApi = (defs, tableName, prefix) => {
 
   return obj;
 };
+
 module.exports = { mongoDBCreateModels, mongoDBApi };
