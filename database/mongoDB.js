@@ -8,7 +8,7 @@ const {
   getHashRangeKeyIndex,
   getType,
   getGlobalIndexHashKey
-} = require("../../utils/etc.js");
+} = require("../utils/etc.js");
 
 const mongoosePaginate = require("mongoose-paginate-v2");
 const { Schema } = mongoose;

@@ -13,7 +13,7 @@ const {
   getHashKey,
   splitForEach,
   getGlobalIndexHashKey
-} = require("../../utils/etc.js");
+} = require("../utils/etc.js");
 
 dotenv.config();
 

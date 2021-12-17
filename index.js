@@ -4,8 +4,8 @@ const {
   dynamoDBCreateModels,
   getSecretString,
   restoreTableFromBackup
-} = require("./dynamoDB/api/dynamoDB.js");
-const { mongoDBApi, mongoDBCreateModels } = require("./mongoDB/api/mongoDB.js");
+} = require("./database/dynamoDB.js");
+const { mongoDBApi, mongoDBCreateModels } = require("./database/mongoDB.js");
 const {
   envTestBool,
   getDateToTimestamp,
