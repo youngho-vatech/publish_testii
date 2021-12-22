@@ -1,3 +1,4 @@
+const { flatten } = require("flat");
 const moment = require("moment");
 const mongoose = require("mongoose");
 const {
@@ -8,7 +9,6 @@ const {
   getType,
   getGlobalIndexHashKey
 } = require("../utils/etc.js");
-const { createCommonFilter } = require("../filter/mongoDB/commonFilter.js");
 
 const mongoosePaginate = require("mongoose-paginate-v2");
 const { Schema } = mongoose;
@@ -16,6 +16,12 @@ const { Schema } = mongoose;
 const CREATE = "0";
 const UPDATE = "1";
 const DELETE = "2";
+const BATCH_PUT = "3";
+const LOGIN = "10";
+const LOGOUT = "11";
+const CREATE_PERM = "20";
+const UPDATE_PERM = "21";
+const DELETE_PERM = "22";
 
 const mongoDBCreateModels = async options => {
   const { prefix, importSchema = true, schema } = options;
@@ -39,10 +45,7 @@ const mongoDBCreateModels = async options => {
       useNewUrlParser: true,
       useCreateIndex: true,
       useFindAndModify: false,
-      useUnifiedTopology: envTestBool(process.env.MONGODB_UNIFIEDTOPOLOGY),
-      // MongoDB 초기 연결 후 비 활동으로 인해 소켓을 종료하기 전에 대기하는 시간.
-      // 활동이 없거나 장기 실행 조작으로 인해 소켓이 비활성 상태 일 경우 30000 으로 설정되어 있으며 일부 데이터베이스 작업이 20 초 이상 실행될 것으로 예상되는 경우 가장 긴 실행 작업의 2-3 배로 설정해야함.
-      socketTimeoutMS: 90000
+      useUnifiedTopology: envTestBool(process.env.MONGODB_UNIFIEDTOPOLOGY)
     })
     .then(res => {
       console.log("successfully connected to the database");
@@ -75,6 +78,165 @@ const getSchemaType = (schemas, name) => {
   if (value instanceof Schema.Types.Boolean) return "Boolean";
   if (value instanceof Schema.Types.Array) return "List";
   return "Unknown";
+};
+
+const createCommonFilter = (
+  args = {},
+  startKey,
+  limit,
+  comparison,
+  match,
+  obj,
+  sort,
+  isQuery = true,
+  customFilter
+) => {
+  const conditions = {};
+  const { tableName, tableSchema, key, index } = obj;
+
+  let hashKey = getHashKey(tableSchema.obj);
+  let globalIndexHashKey = "";
+  if (sort && sort.indexKey) {
+    globalIndexHashKey = getGlobalIndexHashKey(tableSchema.obj, sort.indexKey);
+  }
+  const hashV = {};
+  if (args) {
+    if (globalIndexHashKey) {
+      hashKey = globalIndexHashKey;
+      if (!args[globalIndexHashKey]) {
+        throw new Error(
+          `No HashKey for global index. HashKey: ${globalIndexHashKey}`
+        );
+      }
+      hashV.value = args[globalIndexHashKey];
+      delete args[globalIndexHashKey];
+    } else {
+      hashV.value = args[hashKey];
+      delete args[hashKey];
+    }
+  }
+
+  let hashValue = hashV.value;
+
+  if (args) {
+    (args => {
+      Object.keys(args).forEach(argKey => {
+        if (argKey === "dummy") return;
+        if (args[argKey] === null) return;
+        if (argKey === hashKey) return;
+        const retType = getSchemaType(tableSchema, argKey);
+
+        // console.log("retType: ", retType);
+        const argType = getType(JSON.parse(JSON.stringify(args[argKey])));
+        // console.log("retType", retType, "argType", argType);
+
+        if (retType === "String") {
+          if (argType === "List") {
+            conditions[argKey] = { $in: args[argKey] };
+          } else {
+            if (match === "contains") {
+              conditions[argKey] = {
+                $regex: `${args[argKey]}`,
+                $options: "i"
+              };
+            } else {
+              conditions[argKey] = args[argKey];
+            }
+          }
+        }
+
+        if (retType === "Number") {
+          conditions[argKey] = args[argKey];
+        }
+
+        if (retType === "Boolean") {
+          conditions[argKey] = args[argKey];
+        }
+
+        if (retType === "Date") {
+          conditions[argKey] = {};
+          if (args[argKey].begin) {
+            conditions[argKey][`$gte`] = new Date(args[argKey].begin);
+          }
+          if (args[argKey].end) {
+            conditions[argKey][`$lte`] = new Date(args[argKey].end);
+          }
+        }
+
+        if (retType === "Map") {
+          const flattenObject = flatten({
+            [argKey]: args[argKey]
+          });
+
+          Object.keys(flattenObject).forEach(flattenKey => {
+            const value = flattenObject[flattenKey];
+            if (typeof value === "string" && match === "contains") {
+              conditions[flattenKey] = { $regex: `${value}`, $options: "i" };
+            } else {
+              conditions[flattenKey] = value;
+            }
+          });
+        }
+
+        if (retType === "List" && ["String", "Number"].includes(argType)) {
+          if (args[argKey][0] === "!") {
+            conditions[argKey] = { $ne: args[argKey].substring(1) };
+          } else {
+            conditions[argKey] = args[argKey];
+          }
+        }
+      });
+    })(JSON.parse(JSON.stringify(args)));
+  }
+
+  // remove keys which has no value due to mongodb bugs
+  // Object.keys(conditions).forEach(key => {
+  //   if (!conditions[key]) {
+  //     if (conditions[key] === 0) {
+  //       return;
+  //     }
+  //     delete conditions[key];
+  //   }
+  // });
+
+  const applyOptions = (conditions, hashValue, comparison) => {
+    const map2arr = args => {
+      return Object.keys(args).reduce((acc, cur) => {
+        const tmp = {};
+        tmp[cur] = args[cur];
+        acc.push(tmp);
+        return acc;
+      }, []);
+    };
+
+    let newConditions = {};
+
+    if (comparison !== "or") {
+      newConditions = Object.assign(conditions);
+    } else {
+      const or = map2arr(conditions);
+      if (or.length) newConditions = { $or: or };
+    }
+
+    if (hashValue) newConditions[hashKey] = hashValue;
+
+    return newConditions;
+  };
+
+  const finalFilter = {
+    conditions: applyOptions(conditions, hashValue, comparison)
+    // page: {
+    //   limit: 100,
+    //   sort: 1
+    // }
+  };
+
+  // console.log(
+  //   JSON.stringify(finalFilter.conditions),
+  //   `match: ${match} comparison: ${comparison}`
+  // );
+
+  return finalFilter;
 };
 
 const reDefineForMongo = schema => {

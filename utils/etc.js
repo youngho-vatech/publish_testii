@@ -1,8 +1,4 @@
 const moment = require("moment");
-const AWS = require("aws-sdk");
-const dotenv = require("dotenv");
-
-dotenv.config();
 
 const getType = object => {
   if (object.constructor === Object) return "Map";
@@ -148,30 +144,6 @@ const splitForEach = (arr, n, tableName) => {
   return res;
 };
 
-const getSecretString = SecretId => {
-  return new Promise((resolve, reject) => {
-    const sm = new AWS.SecretsManager();
-    sm.getSecretValue({ SecretId }, function (err, data) {
-      if (err) reject(err);
-      else resolve(data.SecretString);
-    });
-  });
-};
-
-const restoreTableFromBackup = (tableName, backupArn) => {
-  return new Promise((resolve, reject) => {
-    const dynamodb = new AWS.DynamoDB();
-    const params = {
-      BackupArn: backupArn,
-      TargetTableName: tableName
-    };
-    dynamodb.restoreTableFromBackup(params, (err, data) => {
-      if (err) reject(err);
-      resolve(data);
-    });
-  });
-};
-
 module.exports = {
   getType,
   getRequiredKeys,
@@ -182,7 +154,5 @@ module.exports = {
   getDateToTimestamp,
   getUniqueKey,
   splitForEach,
-  getGlobalIndexHashKey,
-  getSecretString,
-  restoreTableFromBackup
+  getGlobalIndexHashKey
 };
