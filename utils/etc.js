@@ -44,7 +44,6 @@ const getRequiredKeys = (schema, sortKey = null) => {
 };
 
 const getHashRangeKeyIndex = schema => {
-  console.log(schema);
   const data = Object.keys(schema).reduce(
     (acc, cur) => {
       if (schema[cur].hashKey) acc.hashKey = cur;
