@@ -1,10 +1,4 @@
-const {
-  dynamoDBApi,
-  checkStatusToDynamoDbName,
-  dynamoDBCreateModels,
-  getSecretString,
-  restoreTableFromBackup
-} = require("./database/dynamoDB.js");
+const { dynamoDBApi, dynamoDBCreateModels } = require("./database/dynamoDB.js");
 const { mongoDBApi, mongoDBCreateModels } = require("./database/mongoDB.js");
 const {
   envTestBool,
@@ -16,12 +10,13 @@ const {
   getType,
   getUniqueKey,
   splitForEach,
-  getGlobalIndexHashKey
+  getGlobalIndexHashKey,
+  getSecretString,
+  restoreTableFromBackup
 } = require("./utils/etc.js");
 
 module.exports = {
   dynamoDBApi,
-  checkStatusToDynamoDbName,
   dynamoDBCreateModels,
   getSecretString,
   restoreTableFromBackup,
