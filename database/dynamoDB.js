@@ -1081,7 +1081,5 @@ module.exports = {
   dynamoDBCreateModels,
   getSecretString,
   restoreTableFromBackup,
-  checkStatusToDynamoDbName,
-  // model,
   dynamoDBApi
 };
