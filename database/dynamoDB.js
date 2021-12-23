@@ -12,7 +12,7 @@ const {
   splitForEach,
   getGlobalIndexHashKey
 } = require("../utils/etc.js");
-
+const { createCommonFilter } = require("../filter/dynamoDBFilter");
 dotenv.config();
 
 const debugTime = false;

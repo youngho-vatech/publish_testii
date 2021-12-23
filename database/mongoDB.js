@@ -10,7 +10,7 @@ const {
 
 const mongoosePaginate = require("mongoose-paginate-v2");
 const { Schema } = mongoose;
-
+const { createCommonFilter } = require("../filter/mongoDBFilter");
 const CREATE = "0";
 const UPDATE = "1";
 const DELETE = "2";
