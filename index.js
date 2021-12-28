@@ -1,27 +1,27 @@
 const {
-  dynamoDBApi,
-  checkStatusToDynamoDbName,
   dynamoDBCreateModels,
   getSecretString,
-  restoreTableFromBackup
+  restoreTableFromBackup,
+  dynamoDBApi
 } = require("./database/dynamoDB.js");
 const { mongoDBApi, mongoDBCreateModels } = require("./database/mongoDB.js");
 const {
-  envTestBool,
-  getDateToTimestamp,
+  getType,
+  getRequiredKeys,
   getHashRangeKeyIndex,
   getHashKey,
   getRangeKey,
-  getRequiredKeys,
-  getType,
+  envTestBool,
+  getDateToTimestamp,
   getUniqueKey,
   splitForEach,
-  getGlobalIndexHashKey
+  getGlobalIndexHashKey,
+  reDefineForMongo,
+  createIndex
 } = require("./utils/etc.js");
 
 module.exports = {
   dynamoDBApi,
-  checkStatusToDynamoDbName,
   dynamoDBCreateModels,
   getSecretString,
   restoreTableFromBackup,

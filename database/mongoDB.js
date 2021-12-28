@@ -5,7 +5,9 @@ const {
   getRequiredKeys,
   getHashRangeKeyIndex,
   getType,
-  getGlobalIndexHashKey
+  getGlobalIndexHashKey,
+  reDefineForMongo,
+  createIndex
 } = require("../utils/etc.js");
 
 const mongoosePaginate = require("mongoose-paginate-v2");
@@ -57,80 +59,6 @@ const mongoDBCreateModels = async options => {
   }
 
   return models;
-};
-
-const reDefineForMongo = schema => {
-  const reformat = schema => {
-    const newValue = {};
-
-    for (var key in schema) {
-      if (typeof schema[key] === "object") {
-        if (schema[key].hasOwnProperty("type")) {
-          if (schema[key].type === "list") {
-            const tmp = schema[key].list;
-            delete schema[key].type;
-            delete schema[key].list;
-            newValue[key] = [reformat(tmp[0])];
-            continue;
-          }
-        }
-
-        if (Array.isArray(schema[key])) {
-          newValue[key] = [reformat(schema[key][0])];
-        } else {
-          newValue[key] = reformat(schema[key]);
-        }
-      } else {
-        newValue[key] = schema[key];
-      }
-    }
-
-    return newValue;
-  };
-
-  const removeIndex = obj => {
-    const ret = Object.keys(obj).reduce((acc, cur) => {
-      if (obj[cur].index) {
-        acc[cur] = Object.assign(obj[cur]);
-        delete acc[cur].index;
-        return acc;
-      }
-      acc[cur] = obj[cur];
-      return acc;
-    }, {});
-    return ret;
-  };
-
-  return removeIndex(reformat(schema));
-};
-
-const createIndex = (schema, hashKey, rangeKey, indexs) => {
-  const indexTmp = [];
-
-  if (rangeKey) {
-    indexTmp.push({
-      key: { [hashKey]: 1, [rangeKey]: 1 },
-      name: rangeKey,
-      unique: true
-    });
-  } else {
-    indexTmp.push({
-      key: { [hashKey]: 1 },
-      name: hashKey,
-      unique: true
-    });
-  }
-
-  if (indexs.length) {
-    indexs.forEach(el =>
-      indexTmp.push({ key: { [hashKey]: 1, [el]: 1 }, name: el })
-    );
-  }
-
-  indexTmp.forEach(el => {
-    schema.index(el.key, { unique: !!el.unique, name: el.name });
-  });
-  return indexs;
 };
 
 const createCollection = (collectionName, model) => {

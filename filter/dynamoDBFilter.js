@@ -50,25 +50,6 @@ const checkExistsToDynamoDbName = tableName =>
     listTable();
   });
 
-const checkStatusToDynamoDbName = async tableName => {
-  const exists = await checkExistsToDynamoDbName(tableName);
-  return new Promise((resolve, reject) => {
-    if (exists) {
-      const dynamodb = new AWS.DynamoDB();
-      const params = {
-        TableName: tableName
-      };
-      dynamodb.describeTable(params, (err, data) => {
-        if (err) reject(err);
-        resolve(data.Table.TableStatus);
-        // "ACTIVE", "CREATING"
-      });
-    } else {
-      resolve("NOT_FOUND");
-    }
-  });
-};
-
 const createCommonFilter = (
   args,
   startKey,
