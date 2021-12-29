@@ -22,34 +22,6 @@ const getSchemaType = (schemas, name) => {
   return "Unknown";
 };
 
-const checkExistsToDynamoDbName = tableName =>
-  new Promise((resolve, reject) => {
-    const dynamodb = new AWS.DynamoDB();
-    function listTable(params = {}) {
-      dynamodb
-        .listTables(params)
-        .promise()
-        .then(data => {
-          const exists =
-            data.TableNames.filter(name => {
-              return name === tableName;
-            }).length > 0;
-          if (exists) {
-            return resolve(true);
-          } else if (data.LastEvaluatedTableName) {
-            const params = {
-              ExclusiveStartTableName: data.LastEvaluatedTableName
-            };
-            return listTable(params);
-          } else {
-            return resolve(false);
-          }
-        })
-        .catch(e => reject(e));
-    }
-    listTable();
-  });
-
 const createCommonFilter = (
   args,
   startKey,
